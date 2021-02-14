@@ -3,18 +3,22 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+import plotly.express as px
 
-url_base = "/dashboards/app1/"
+df = px.data.iris()  # iris is a pandas DataFrame
+
+
+url_base = "/dashboards/app2/"
 
 plot1 = go.Figure(data=[go.Scatter(x=[1, 2, 3], y=[4, 1, 2])])
+plot2 = px.scatter(df, x="sepal_width", y="sepal_length")
 
-
-def Add_Dash(server):
+def instanciate(server):
     app = Dash(
         __name__,
         server=server,
         url_base_pathname=url_base,
-        external_stylesheets=["/static/css/style.css"],
+        external_stylesheets=["/api/static/css/style.css"],
     )
 
     @app.callback(Output("target", "children"), [Input("input-text", "value")])
@@ -32,9 +36,7 @@ def Add_Dash(server):
                                 [dcc.Input(id="input-text")],
                                 className="column is-6",
                             ),
-                            html.Div(
-                                [html.Div(id="target")], className="column is-6"
-                            ),
+                            html.Div([html.Div(id="target")], className="column is-6"),
                             html.Div(
                                 [
                                     dcc.Graph(
@@ -43,16 +45,24 @@ def Add_Dash(server):
                                         config={"displaylogo": False},
                                     )
                                 ],
-                                className="column is-12",
+                                className="column is-6",
+                            ),
+                            html.Div(
+                                [
+                                    dcc.Graph(
+                                        id="plot2",
+                                        figure=plot2,
+                                        config={"displaylogo": False},
+                                    )
+                                ],
+                                className="column is-6",
                             ),
                         ],
                         className="columns is-multiline",
                     ),
                 ],
-                className="container is-max-widescreen",
+                className="container is-max-fullhd",
             )
-            # html.Link(rel='stylesheet', href='/static/css/bulma.css'),
-            # html.Link(rel='stylesheet', href='/static/css/style.css'),
         ]
     )
 
