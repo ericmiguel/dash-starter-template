@@ -1,0 +1,16 @@
+{
+  "name": "dash-starter-template",
+  "description": "A Dash starter template, suitable for small to large projects.",
+  "version": "0.0.1",
+  "author": "ericmiguel",
+  "license": "MIT",
+  "devDependencies": {
+    "bulma": "^0.9.1",
+    "node-sass": "^4.9.2"
+  },
+  "scripts": {
+    "css-build": "node-sass --source-map true --omit-source-map-url sass/styles.scss app/static/css/bulma.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  }
+}
